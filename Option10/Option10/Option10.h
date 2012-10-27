@@ -6,6 +6,8 @@
 #ifndef OPTION10_H_
 #define OPTION10_H_
 
+
+#define SQR(x,x1) (x - x1) * (x - x1)
 #define KODE_ESC 27U
 #define LENGTH_OF_CHAR 4U
 #define LENGTH_OF_COLOR 8U
@@ -29,19 +31,26 @@ char InputChar ( void );
 
 /**
 * @brief	This function provides input data
-* @param	[in, out]	pPoint The count of points
+* @param	[in, out]	count The count of points
 * @post		returns the pointer to the struct Point3D
 * @return	Point3D
 */
 Point3D* InputData ( unsigned char &count);
 
 /**
+* @brief	This function displays information about points
+* @param	[in]	pPoints The pointer to the struct Point3D
+* @return	void
+*/
+void PrintData ( Point3D *pPoints, unsigned char count );
+
+/**
 * @brief	This function determines the distance between two spatial points
 * @param	[in]	p1 The pointer to the struct Point3D
 * @param	[in]	p2 The pointer to the struct Point3D
-* @return	unsigned short
+* @return	float
 */
-unsigned short Distance3D ( Point3D *p1, Point3D *p2 );
+float Distance3D ( Point3D *p1, Point3D *p2 );
 
 
 #endif /* OPTION10_H_ */
