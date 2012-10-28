@@ -1,136 +1,85 @@
 ﻿/**
-* @file option12.h
+* @file option12.cpp
 * @brief The source file project 
 */
 
 #include "option12.h"
+
 #include <conio.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <float.h>
+#include <string.h>
 
 // This function provides the correct input integer in the given range
-template< typename T > 
-T ProtectionInput ( T minValue, T maxValue )
+bool ProtectionInput ( unsigned char &value, unsigned char minValue, unsigned char maxValue )
 {
 	long long x;
+	bool flag = true; // flag interrupt input
 	fflush(stdin);
-	while ( !scanf_s("%lld", &x) || (x < minValue || x > maxValue) )
+	while ( flag == true && (!scanf_s("%lld", &x) || ((unsigned char)x < minValue || (unsigned char)x > maxValue) ))
 	{
-		fflush(stdin);
 		printf("Error! Incorrectly input data!\n");
-		printf("Please enter the number once again: ");
-	}
-	return (T)x;
-}
-
-
-// This function provides the creation of matrix real numbers given size
-unsigned int* CreateMatr ( UCHAR rows, UCHAR colls )
-{
-	printf("Created matr...\n");
-	return NULL;
-}
-
-// This function displays a matrix
-void PrintMatr ( const unsigned int* pMatr, const UCHAR rows, const UCHAR colls )
-{
-	float *tmpPtr;
-	printf("-------------------------------------------------------\n");
-	printf("Matrix of float numbers: %hhu x %hhu\n", rows, colls);
-	for(UCHAR i = 0U; i < rows; ++i)
-	{
-		tmpPtr = (float*)(pMatr + i);
-		for(UCHAR j = 0U; j < colls; ++j)
+		printf("Press any key to re-enter or ESC to termination...");
+		fflush(stdin);	
+		if(_getch() == CODE_ESC)	// if pressed key ESC...
 		{
-			printf("%.2f ", *(tmpPtr + j));
+			flag = false;
+			continue;
 		}
-		printf("\n");
+		printf("\nPlease enter the number once again: ");
+		fflush(stdin);
 	}
-	return;
+	value = (unsigned char)x;
+	return flag;
 }
-
-// This function removes of the matrix rows where the first element is minimal
-short int DelRows ( unsigned int *pMatr, const UCHAR rows, const UCHAR colls )
-{
-
-	return 0U;
-}
-
 
 void main ( void )
 {
-	unsigned int *pMatr;	// a pointer to the first element of the first row of of the matrix
-	UCHAR rows;		// count of the rows of the matrix
-	UCHAR colls;	// count of the rows of the matrix
-	float *tmpPtr;
-
+	Row *pMatr;	// a pointer to the first element of the first row of of the matrix
+	unsigned char rows = 2U;		// count of the rows of the matrix
+	unsigned char colls = 2U;	// count of the rows of the matrix
 	
 	do
 	{
 		system("cls");
+		printf("The minimum size of of the matrix: %hhu x %hhu.\n", MIN_SIZE, MIN_SIZE);
 		printf("The maximum size of of the matrix: %hhu x %hhu.\n\n", MAX_SIZE, MAX_SIZE);
 		
 		//	input size of the matrix 
 		printf("Enter count of rows (0 - continue): "); 
-		rows = ProtectionInput<UCHAR>(0, 255);
-		if(rows == 0U)
+		if(ProtectionInput(rows, MIN_SIZE, MAX_SIZE) == false)
 		{
-			printf("Input data terminated by user.\n");
+			printf("\nInput data terminated by user.\n");
 			continue;
 		}
 		printf("Enter count of colls (0 - continue): ");
-		colls = ProtectionInput<UCHAR>(0, 255);
-		if(colls == 0U)
+		if(ProtectionInput(colls, MIN_SIZE, MAX_SIZE) == false)
 		{
-			printf("Input data terminated by user.\n");
+			printf("\nInput data terminated by user.\n");
 			continue;
 		}
-
+	
 		system("cls");
 
 		printf("Size of matrix: %hhu x %hhu\n", rows, colls);
 
 		// enter of the matrix
-		pMatr = CreateMatr(rows, colls);
+		pMatr = CreateMatrList(rows, colls);
 		if(pMatr == NULL)
 		{
-			printf("Matrix is not created.\n");
+			printf("\nMatrix is not created.\n");
 			continue;
 		}
 		// displays a matrix
-		PrintMatr(pMatr, rows, colls);
+		PrintMatrList(pMatr, colls);
 
 		// delete rows
-		short int countDel = DelRows(pMatr, rows, colls);
-		if(countDel == -1)
-		{
-			if(pMatr != NULL)
-			{
-				for(UCHAR i = 0U; i < rows; ++i)
-				{
-					tmpPtr = (float *)*(pMatr + i);
-					if(tmpPtr != NULL)
-					{
-						delete tmpPtr;
-					}
-				}
-				delete pMatr;
-			}
-			printf("An error occurred while deleting rows.");
-			continue;
-		}
-		printf("%u rows removed from the matrix.\n", DelRows(pMatr, rows, colls));
+		unsigned char countDel = DelRows(pMatr, colls);
+		printf("%u row(s) removed from the matrix.\n", countDel);
 
 		// displays a matrix
-		PrintMatr(pMatr, rows, colls);
-		for(UCHAR i = 0U; i < rows; ++i)
-		{
-			tmpPtr = (float *)*(pMatr + i);
-			if(tmpPtr != NULL)
-			{
-				delete tmpPtr;
-			}
-		}
+		PrintMatrList(pMatr, colls);
 		delete pMatr;
 	}
 	while(CONTINUE, _getch() != CODE_ESC);	// while not pressed key ESC...

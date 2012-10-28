@@ -18,9 +18,15 @@
     <ClInclude Include="option12.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="rowList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="option12.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rowList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

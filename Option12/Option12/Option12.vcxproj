@@ -75,9 +75,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="option12.h" />
+    <ClInclude Include="rowList.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="option12.cpp" />
+    <ClCompile Include="rowList.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
